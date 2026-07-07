@@ -1,0 +1,665 @@
+/* 基本リセット */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg-off-white: #F7F5F0;
+    --accent-gold: #D4A574;
+    --accent-deep-green: #2F4F4F;
+    --text-dark: #2C2C2C;
+    --text-sub: #9B9B9B;
+    --white: #FFFFFF;
+}
+
+body {
+    font-family: "Klee One", cursive;
+    background: var(--bg-off-white);
+    min-height: 100vh;
+    padding: 20px;
+    color: var(--text-dark);
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* ヘッダー */
+.header {
+    text-align: center;
+    color: var(--text-dark);
+    margin-bottom: 30px;
+    padding: 20px 0;
+    position: relative;
+}
+
+.header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    color: var(--text-sub);
+}
+
+.plan-badge {
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+#planLabel {
+    padding: 5px 15px;
+    background: var(--accent-gold);
+    color: var(--white);
+    border-radius: 20px;
+    font-size: 0.9rem;
+}
+
+.upgrade-btn {
+    padding: 5px 15px;
+    background: var(--accent-deep-green);
+    color: var(--white);
+    border: 2px solid var(--accent-deep-green);
+    font-family: "Klee One", cursive;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.upgrade-btn:hover {
+    background: var(--bg-off-white);
+    color: var(--accent-deep-green);
+}
+
+/* セクション共通 */
+.input-section,
+.list-section,
+.stats-section {
+    background: var(--white);
+    padding: 25px;
+    margin-bottom: 20px;
+    border: 2px solid var(--accent-gold);
+}
+
+.input-section h2,
+.list-section h2,
+.stats-section h2 {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+    color: var(--text-dark);
+    font-weight: 600;
+}
+
+/* 入力フォーム */
+#winForm {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#winInput {
+    width: 100%;
+    min-height: 120px;
+    padding: 15px;
+    border: 2px solid #E5E5E5;
+    font-size: 1rem;
+    font-family: "Klee One", cursive;
+    resize: vertical;
+    transition: border-color 0.3s;
+    background: var(--bg-off-white);
+}
+
+#winInput:focus {
+    outline: none;
+    border-color: var(--accent-gold);
+}
+
+#winInput::placeholder {
+    color: var(--text-sub);
+}
+
+.char-count {
+    text-align: right;
+    font-size: 0.9rem;
+    color: var(--text-sub);
+}
+
+/* カテゴリ選択（有料版） */
+.category-select {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.category-select label,
+.memo-input label {
+    font-size: 0.95rem;
+    color: var(--text-dark);
+}
+
+.category-select select {
+    padding: 10px;
+    border: 2px solid #E5E5E5;
+    font-family: "Klee One", cursive;
+    font-size: 1rem;
+    background: var(--bg-off-white);
+}
+
+/* メモ入力（有料版） */
+.memo-input {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+#memoInput {
+    width: 100%;
+    min-height: 80px;
+    padding: 12px;
+    border: 2px solid #E5E5E5;
+    font-family: "Klee One", cursive;
+    font-size: 0.95rem;
+    resize: vertical;
+    background: var(--bg-off-white);
+}
+
+#memoInput:focus {
+    outline: none;
+    border-color: var(--accent-gold);
+}
+
+/* カテゴリフィルター（有料版） */
+.category-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.filter-btn {
+    padding: 8px 16px;
+    border: 2px solid #E5E5E5;
+    background: var(--bg-off-white);
+    font-family: "Klee One", cursive;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.filter-btn.active,
+.filter-btn:hover {
+    background: var(--accent-gold);
+    color: var(--white);
+    border-color: var(--accent-gold);
+}
+
+/* 送信ボタン */
+.submit-btn {
+    background: var(--accent-deep-green);
+    color: var(--white);
+    border: 2px solid var(--accent-deep-green);
+    padding: 15px 30px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-family: "Klee One", cursive;
+}
+
+.submit-btn:hover {
+    background: var(--bg-off-white);
+    color: var(--accent-deep-green);
+}
+
+/* 一覧表示 */
+.win-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.win-item {
+    background: var(--bg-off-white);
+    border-left: 4px solid var(--accent-gold);
+    padding: 15px;
+    position: relative;
+}
+
+.win-item-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.win-category {
+    padding: 3px 10px;
+    background: var(--accent-gold);
+    color: var(--white);
+    font-size: 0.75rem;
+    border-radius: 10px;
+}
+
+.win-content {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--text-dark);
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+.win-memo {
+    margin-top: 10px;
+    padding: 10px;
+    background: rgba(212, 165, 116, 0.1);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: var(--text-sub);
+}
+
+.win-date {
+    font-size: 0.85rem;
+    color: var(--text-sub);
+    margin-top: 8px;
+}
+
+.win-delete {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: var(--text-sub);
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 5px;
+    transition: color 0.2s;
+}
+
+.win-delete:hover {
+    color: var(--accent-deep-green);
+}
+
+.empty-message {
+    text-align: center;
+    color: var(--text-sub);
+    padding: 30px;
+}
+
+/* 統計 */
+.stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.stat-item {
+    background: var(--bg-off-white);
+    padding: 15px;
+    text-align: center;
+    border: 2px solid #E5E5E5;
+}
+
+.stat-label {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--text-sub);
+    margin-bottom: 5px;
+}
+
+.stat-value {
+    display: block;
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--accent-deep-green);
+}
+
+/* 拡張統計（有料版） */
+.extended-stats {
+    margin-top: 25px;
+    padding-top: 25px;
+    border-top: 2px solid #E5E5E5;
+}
+
+.extended-stats h3 {
+    font-size: 1.1rem;
+    margin: 20px 0 15px;
+    color: var(--text-dark);
+}
+
+.extended-stats .stats {
+    margin-bottom: 20px;
+}
+
+/* カテゴリ別統計 */
+.category-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.stat-item-small {
+    background: var(--bg-off-white);
+    padding: 10px;
+    text-align: center;
+    border: 2px solid #E5E5E5;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.stat-item-small .stat-label {
+    font-size: 0.85rem;
+    margin: 0;
+}
+
+.stat-value-small {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--accent-deep-green);
+}
+
+/* モーダル */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: var(--white);
+    margin: 10% auto;
+    padding: 30px;
+    border: 2px solid var(--accent-gold);
+    width: 90%;
+    max-width: 400px;
+    position: relative;
+}
+
+.modal-close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 2rem;
+    cursor: pointer;
+    color: var(--text-sub);
+}
+
+.modal-content h2 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: var(--text-dark);
+}
+
+.modal-text {
+    margin-bottom: 20px;
+    color: var(--text-sub);
+}
+
+.feature-list {
+    list-style: none;
+    margin-bottom: 20px;
+}
+
+.feature-list li {
+    padding: 8px 0;
+    color: var(--text-dark);
+}
+
+.modal-price {
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--accent-deep-green);
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.modal-price .period {
+    font-size: 1rem;
+    color: var(--text-sub);
+}
+
+.modal-upgrade-btn {
+    width: 100%;
+    background: var(--accent-deep-green);
+    color: var(--white);
+    border: 2px solid var(--accent-deep-green);
+    padding: 15px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: "Klee One", cursive;
+    transition: all 0.3s;
+}
+
+.modal-upgrade-btn:hover {
+    background: var(--bg-off-white);
+    color: var(--accent-deep-green);
+}
+
+/* 認証画面 */
+.auth-screen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.auth-container {
+    background: var(--white);
+    padding: 40px;
+    border: 2px solid var(--accent-gold);
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+}
+
+.auth-container h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    color: var(--text-dark);
+}
+
+.auth-subtitle {
+    color: var(--text-sub);
+    margin-bottom: 30px;
+}
+
+.auth-tabs {
+    display: flex;
+    margin-bottom: 30px;
+}
+
+.auth-tab {
+    flex: 1;
+    padding: 12px;
+    border: 2px solid #E5E5E5;
+    background: var(--bg-off-white);
+    font-family: "Klee One", cursive;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.auth-tab:first-child {
+    border-radius: 8px 0 0 8px;
+}
+
+.auth-tab:last-child {
+    border-radius: 0 8px 8px 0;
+}
+
+.auth-tab.active {
+    background: var(--accent-gold);
+    color: var(--white);
+    border-color: var(--accent-gold);
+}
+
+.auth-form {
+    text-align: left;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+    color: var(--text-dark);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #E5E5E5;
+    font-family: "Klee One", cursive;
+    font-size: 1rem;
+    background: var(--bg-off-white);
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--accent-gold);
+}
+
+.auth-submit,
+.feedback-btn {
+    width: 100%;
+    background: var(--accent-deep-green);
+    color: var(--white);
+    border: 2px solid var(--accent-deep-green);
+    padding: 15px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: "Klee One", cursive;
+    transition: all 0.3s;
+}
+
+.auth-submit:hover,
+.feedback-btn:hover {
+    background: var(--bg-off-white);
+    color: var(--accent-deep-green);
+}
+
+.auth-error {
+    color: #e74c3c;
+    font-size: 0.9rem;
+    margin-top: 10px;
+    text-align: center;
+}
+
+/* ヘッダーアクション */
+.header-actions {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
+.user-menu {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+#userName {
+    font-size: 0.95rem;
+    color: var(--text-dark);
+}
+
+.logout-btn {
+    padding: 5px 15px;
+    background: none;
+    border: 2px solid #E5E5E5;
+    font-family: "Klee One", cursive;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.logout-btn:hover {
+    background: var(--accent-deep-green);
+    color: var(--white);
+    border-color: var(--accent-deep-green);
+}
+
+/* フィードバックセクション */
+.feedback-section {
+    background: var(--white);
+    padding: 25px;
+    margin-bottom: 20px;
+    border: 2px solid var(--accent-gold);
+}
+
+.feedback-section h2 {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    color: var(--text-dark);
+    font-weight: 600;
+}
+
+.section-text {
+    color: var(--text-sub);
+    margin-bottom: 20px;
+}
+
+#feedbackForm textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.feedback-success {
+    color: var(--accent-deep-green);
+    font-size: 0.9rem;
+    margin-top: 10px;
+    text-align: center;
+}
+
+/* レスポンシブ */
+@media (max-width: 480px) {
+    .header h1 {
+        font-size: 2rem;
+    }
+
+    .input-section,
+    .list-section,
+    .stats-section {
+        padding: 20px;
+    }
+
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
+    .category-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .auth-container {
+        padding: 30px 20px;
+    }
+}
