@@ -9,7 +9,7 @@ class SmallWinApp {
     // 初期化
     async init() {
         // セッションチェック
-        const { data: { session } } = await supabase.auth.getSession();
+        const { data: { session } } = await window.supabaseClient.auth.getSession();
         if (session) {
             this.currentUser = session.user;
             this.checkAuth();
@@ -22,7 +22,7 @@ class SmallWinApp {
         }
 
         // 認証状態変化のリスナー
-        supabase.auth.onAuthStateChange((event, session) => {
+        window.supabaseClient.auth.onAuthStateChange((event, session) => {
             if (event === 'SIGNED_IN') {
                 this.currentUser = session.user;
                 this.checkAuth();
@@ -87,7 +87,7 @@ class SmallWinApp {
         const errorEl = document.getElementById('loginError');
 
         try {
-            const { data, error } = await supabase.auth.signInWithPassword({
+            const { data, error } = await window.supabaseClient.auth.signInWithPassword({
                 email: email,
                 password: password
             });
@@ -108,7 +108,7 @@ class SmallWinApp {
         const errorEl = document.getElementById('registerError');
 
         try {
-            const { data, error } = await supabase.auth.signUp({
+            const { data, error } = await window.supabaseClient.auth.signUp({
                 email: email,
                 password: password,
                 options: {
@@ -132,7 +132,7 @@ class SmallWinApp {
 
     // ログアウト
     async logout() {
-        await supabase.auth.signOut();
+        await window.supabaseClient.auth.signOut();
         this.currentUser = null;
     }
 
@@ -209,7 +209,7 @@ class SmallWinApp {
         };
 
         try {
-            const { data, error } = await supabase
+            const { data, error } = await window.supabaseClient
                 .from('wins')
                 .insert([win])
                 .select();
@@ -232,7 +232,7 @@ class SmallWinApp {
     // 小さな勝利を削除
     async deleteWin(id) {
         try {
-            const { error } = await supabase
+            const { error } = await window.supabaseClient
                 .from('wins')
                 .delete()
                 .eq('id', id)
@@ -251,7 +251,7 @@ class SmallWinApp {
     // 記録を読み込み
     async loadWins() {
         try {
-            const { data, error } = await supabase
+            const { data, error } = await window.supabaseClient
                 .from('wins')
                 .select('*')
                 .eq('user_id', this.currentUser.id)
