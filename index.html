@@ -15,6 +15,12 @@
         <header class="header">
             <h1>小さな勝利</h1>
             <p class="subtitle">今日の成功を記録しよう</p>
+            <div class="header-actions">
+                <div class="plan-badge">
+                    <span id="planLabel">無料版</span>
+                    <button id="upgradeBtn" class="upgrade-btn">有料版へ</button>
+                </div>
+            </div>
         </header>
 
         <!-- 入力フォーム -->
@@ -28,6 +34,30 @@
                     required
                 ></textarea>
                 <div class="char-count"><span id="charCount">0</span>/200</div>
+
+                <!-- 有料版機能：カテゴリ選択 -->
+                <div class="category-select" id="categorySection" style="display: none;">
+                    <label for="categorySelect">カテゴリ</label>
+                    <select id="categorySelect">
+                        <option value="">選択しない</option>
+                        <option value="work">仕事</option>
+                        <option value="health">健康</option>
+                        <option value="learning">学習</option>
+                        <option value="hobby">趣味</option>
+                        <option value="other">その他</option>
+                    </select>
+                </div>
+
+                <!-- 有料版機能：メモ入力 -->
+                <div class="memo-input" id="memoSection" style="display: none;">
+                    <label for="memoInput">メモ（任意）</label>
+                    <textarea
+                        id="memoInput"
+                        placeholder="メモを追加できます..."
+                        maxlength="500"
+                    ></textarea>
+                </div>
+
                 <button type="submit" class="submit-btn">記録する</button>
             </form>
         </section>
@@ -35,6 +65,15 @@
         <!-- 一覧表示 -->
         <section class="list-section">
             <h2>これまでの小さな勝利</h2>
+            <!-- カテゴリフィルター（有料版） -->
+            <div class="category-filter" id="categoryFilter" style="display: none;">
+                <button class="filter-btn active" data-category="">すべて</button>
+                <button class="filter-btn" data-category="work">仕事</button>
+                <button class="filter-btn" data-category="health">健康</button>
+                <button class="filter-btn" data-category="learning">学習</button>
+                <button class="filter-btn" data-category="hobby">趣味</button>
+                <button class="filter-btn" data-category="other">その他</button>
+            </div>
             <div id="winList" class="win-list">
                 <p class="empty-message">まだ記録がありません。今日の小さな勝利から始めましょう！</p>
             </div>
@@ -51,6 +90,52 @@
                 <div class="stat-item">
                     <span class="stat-label">連続記録日数</span>
                     <span id="streakCount" class="stat-value">0</span>
+                </div>
+            </div>
+
+            <!-- 有料版：週次・月次の統計 -->
+            <div class="extended-stats" id="extendedStats" style="display: none;">
+                <h3>週次統計</h3>
+                <div class="stats">
+                    <div class="stat-item">
+                        <span class="stat-label">今週の記録</span>
+                        <span id="weeklyCount" class="stat-value">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">先週の記録</span>
+                        <span id="lastWeekCount" class="stat-value">0</span>
+                    </div>
+                </div>
+                <h3>月次統計</h3>
+                <div class="stats">
+                    <div class="stat-item">
+                        <span class="stat-label">今月の記録</span>
+                        <span id="monthlyCount" class="stat-value">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">先月の記録</span>
+                        <span id="lastMonthCount" class="stat-value">0</span>
+                    </div>
+                </div>
+                <!-- カテゴリ別統計 -->
+                <h3>カテゴリ別</h3>
+                <div class="category-stats" id="categoryStats">
+                    <div class="stat-item-small">
+                        <span class="stat-label">仕事</span>
+                        <span id="catWork" class="stat-value-small">0</span>
+                    </div>
+                    <div class="stat-item-small">
+                        <span class="stat-label">健康</span>
+                        <span id="catHealth" class="stat-value-small">0</span>
+                    </div>
+                    <div class="stat-item-small">
+                        <span class="stat-label">学習</span>
+                        <span id="catLearning" class="stat-value-small">0</span>
+                    </div>
+                    <div class="stat-item-small">
+                        <span class="stat-label">趣味</span>
+                        <span id="catHobby" class="stat-value-small">0</span>
+                    </div>
                 </div>
             </div>
         </section>
@@ -81,6 +166,27 @@
                 <p class="feedback-success" id="feedbackSuccess"></p>
             </form>
         </section>
+    </div>
+
+    <!-- パスワードモーダル -->
+    <div id="passwordModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="modal-close" id="passwordModalClose">&times;</span>
+            <h2>有料版へのアップグレード</h2>
+            <p class="modal-text">有料版（¥500/月）にアップグレードして、以下の機能を解放しましょう！</p>
+            <ul class="feature-list">
+                <li>✓ 全期間の記録保存</li>
+                <li>✓ カテゴリ分け機能</li>
+                <li>✓ メモ機能</li>
+                <li>✓ 週次・月次の統計</li>
+            </ul>
+            <div class="modal-price">¥500<span class="period">/月</span></div>
+            <div class="password-input">
+                <input type="password" id="passwordInput" placeholder="パスワードを入力" />
+                <button id="passwordSubmit" class="modal-upgrade-btn">有料版に切り替える</button>
+            </div>
+            <p class="password-error" id="passwordError"></p>
+        </div>
     </div>
 
     <script src="js/app.js"></script>

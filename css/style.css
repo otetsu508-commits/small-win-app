@@ -663,3 +663,269 @@ body {
         padding: 30px 20px;
     }
 }
+
+/* ヘッダーアクション */
+.header-actions {
+    margin-top: 15px;
+}
+
+.plan-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--white);
+    padding: 8px 16px;
+    border-radius: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.plan-badge span {
+    font-size: 0.9rem;
+    color: var(--accent-deep-green);
+}
+
+.upgrade-btn {
+    background: var(--accent-gold);
+    color: var(--white);
+    border: none;
+    padding: 6px 14px;
+    border-radius: 15px;
+    cursor: pointer;
+    font-family: "Klee One", cursive;
+    font-size: 0.85rem;
+    transition: opacity 0.2s;
+}
+
+.upgrade-btn:hover {
+    opacity: 0.8;
+}
+
+/* カテゴリ選択 */
+.category-select {
+    margin-top: 15px;
+}
+
+.category-select label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-sub);
+    font-size: 0.9rem;
+}
+
+.category-select select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-family: "Klee One", cursive;
+    font-size: 1rem;
+    background: var(--white);
+}
+
+/* メモ入力 */
+.memo-input {
+    margin-top: 15px;
+}
+
+.memo-input label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-sub);
+    font-size: 0.9rem;
+}
+
+.memo-input textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-family: "Klee One", cursive;
+    font-size: 0.95rem;
+    min-height: 80px;
+    resize: vertical;
+}
+
+/* カテゴリフィルター */
+.category-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.filter-btn {
+    background: var(--white);
+    border: 1px solid #ddd;
+    padding: 6px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: "Klee One", cursive;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+}
+
+.filter-btn:hover {
+    background: var(--bg-off-white);
+}
+
+.filter-btn.active {
+    background: var(--accent-gold);
+    color: var(--white);
+    border-color: var(--accent-gold);
+}
+
+/* 拡張統計 */
+.extended-stats {
+    margin-top: 20px;
+}
+
+.extended-stats h3 {
+    font-size: 1rem;
+    color: var(--accent-deep-green);
+    margin: 15px 0 10px;
+}
+
+/* カテゴリ別統計 */
+.category-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.stat-item-small {
+    background: var(--white);
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.stat-item-small .stat-label {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--text-sub);
+    margin-bottom: 5px;
+}
+
+.stat-value-small {
+    font-size: 1.2rem;
+    color: var(--accent-deep-green);
+    font-weight: 600;
+}
+
+/* パスワードモーダル */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background: var(--white);
+    padding: 30px;
+    border-radius: 16px;
+    max-width: 400px;
+    width: 90%;
+    position: relative;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.modal-close {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-sub);
+}
+
+.modal-close:hover {
+    color: var(--text-dark);
+}
+
+.modal-content h2 {
+    margin-bottom: 10px;
+    color: var(--accent-deep-green);
+}
+
+.modal-text {
+    color: var(--text-sub);
+    margin-bottom: 15px;
+}
+
+.feature-list {
+    list-style: none;
+    margin: 15px 0;
+}
+
+.feature-list li {
+    padding: 5px 0;
+    color: var(--text-dark);
+}
+
+.modal-price {
+    font-size: 2rem;
+    color: var(--accent-gold);
+    font-weight: 600;
+    margin: 20px 0;
+}
+
+.period {
+    font-size: 1rem;
+    color: var(--text-sub);
+}
+
+.password-input {
+    margin-top: 20px;
+}
+
+.password-input input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    font-family: "Klee One", cursive;
+    font-size: 1rem;
+}
+
+.modal-upgrade-btn {
+    width: 100%;
+    background: var(--accent-gold);
+    color: var(--white);
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-family: "Klee One", cursive;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.modal-upgrade-btn:hover {
+    opacity: 0.8;
+}
+
+.password-error {
+    color: #e74c3c;
+    font-size: 0.85rem;
+    margin-top: 8px;
+    text-align: center;
+}
+
+/* 勝利アイテムのメモ */
+.win-memo {
+    font-size: 0.85rem;
+    color: var(--text-sub);
+    margin-top: 5px;
+    padding-left: 10px;
+    border-left: 2px solid var(--accent-gold);
+}

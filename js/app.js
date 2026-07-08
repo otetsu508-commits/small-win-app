@@ -3,14 +3,47 @@
 class SmallWinApp {
     constructor() {
         this.storageKey = 'smallWinApp_data';
+        this.premiumKey = 'smallWinApp_premium';
+        this.password = 'smallwin2026'; // 有料版パスワード
+        this.isPremium = this.checkPremium();
+        this.currentFilter = '';
         this.init();
     }
 
     init() {
         this.bindEvents();
         this.loadWins();
+        this.updateUI();
         this.render();
         this.updateStats();
+    }
+
+    checkPremium() {
+        return localStorage.getItem(this.premiumKey) === 'true';
+    }
+
+    activatePremium() {
+        localStorage.setItem(this.premiumKey, 'true');
+        this.isPremium = true;
+        this.updateUI();
+    }
+
+    updateUI() {
+        if (this.isPremium) {
+            document.getElementById('planLabel').textContent = '有料版';
+            document.getElementById('upgradeBtn').style.display = 'none';
+            document.getElementById('categorySection').style.display = 'block';
+            document.getElementById('memoSection').style.display = 'block';
+            document.getElementById('categoryFilter').style.display = 'flex';
+            document.getElementById('extendedStats').style.display = 'block';
+        } else {
+            document.getElementById('planLabel').textContent = '無料版';
+            document.getElementById('upgradeBtn').style.display = 'block';
+            document.getElementById('categorySection').style.display = 'none';
+            document.getElementById('memoSection').style.display = 'none';
+            document.getElementById('categoryFilter').style.display = 'none';
+            document.getElementById('extendedStats').style.display = 'none';
+        }
     }
 
     bindEvents() {
@@ -26,12 +59,36 @@ class SmallWinApp {
             });
         }
 
-        // アップグレードボタン（デモ）
+        // アップグレードボタン
         if (document.getElementById('upgradeBtn')) {
             document.getElementById('upgradeBtn').addEventListener('click', () => {
-                alert('有料版は近日公開予定です。今しばらくお待ちください。');
+                document.getElementById('passwordModal').style.display = 'flex';
             });
         }
+
+        // パスワードモーダルを閉じる
+        if (document.getElementById('passwordModalClose')) {
+            document.getElementById('passwordModalClose').addEventListener('click', () => {
+                document.getElementById('passwordModal').style.display = 'none';
+            });
+        }
+
+        // パスワード送信
+        if (document.getElementById('passwordSubmit')) {
+            document.getElementById('passwordSubmit').addEventListener('click', () => {
+                this.verifyPassword();
+            });
+        }
+
+        // カテゴリフィルター
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                this.currentFilter = e.target.dataset.category;
+                this.render();
+            });
+        });
 
         // フィードバックフォーム
         if (document.getElementById('feedbackForm')) {
@@ -39,6 +96,21 @@ class SmallWinApp {
                 e.preventDefault();
                 this.submitFeedback();
             });
+        }
+    }
+
+    verifyPassword() {
+        const input = document.getElementById('passwordInput');
+        const errorEl = document.getElementById('passwordError');
+
+        if (input.value === this.password) {
+            this.activatePremium();
+            document.getElementById('passwordModal').style.display = 'none';
+            input.value = '';
+            errorEl.textContent = '';
+            alert('有料版に切り替わりました！すべての機能が解放されました。');
+        } else {
+            errorEl.textContent = 'パスワードが正しくありません';
         }
     }
 
@@ -53,6 +125,8 @@ class SmallWinApp {
 
     addWin() {
         const input = document.getElementById('winInput');
+        const categoryInput = document.getElementById('categorySelect');
+        const memoInput = document.getElementById('memoInput');
         const content = input.value.trim();
 
         if (!content) return;
@@ -61,6 +135,8 @@ class SmallWinApp {
         const newWin = {
             id: Date.now(),
             content: content,
+            category: this.isPremium ? categoryInput.value : '',
+            memo: this.isPremium ? memoInput.value : '',
             createdAt: new Date().toISOString()
         };
 
@@ -68,6 +144,8 @@ class SmallWinApp {
         this.saveData(wins);
 
         input.value = '';
+        if (categoryInput) categoryInput.value = '';
+        if (memoInput) memoInput.value = '';
         document.getElementById('charCount').textContent = '0';
 
         this.loadWins();
@@ -93,15 +171,30 @@ class SmallWinApp {
         const listEl = document.getElementById('winList');
         if (!listEl) return;
 
-        if (this.wins.length === 0) {
+        let displayWins = this.wins;
+
+        // 無料版は7日分のみ表示
+        if (!this.isPremium) {
+            const sevenDaysAgo = new Date();
+            sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+            displayWins = displayWins.filter(win => new Date(win.createdAt) >= sevenDaysAgo);
+        }
+
+        // カテゴリフィルター
+        if (this.currentFilter) {
+            displayWins = displayWins.filter(win => win.category === this.currentFilter);
+        }
+
+        if (displayWins.length === 0) {
             listEl.innerHTML = '<p class="empty-message">まだ記録がありません。今日の小さな勝利から始めましょう！</p>';
             return;
         }
 
-        listEl.innerHTML = this.wins.map(win => `
+        listEl.innerHTML = displayWins.map(win => `
             <div class="win-item">
                 <button class="win-delete" onclick="app.deleteWin(${win.id})">&times;</button>
                 <div class="win-content">${this.escapeHtml(win.content)}</div>
+                ${win.memo ? `<div class="win-memo">${this.escapeHtml(win.memo)}</div>` : ''}
                 <div class="win-date">${this.formatDate(win.createdAt)}</div>
             </div>
         `).join('');
@@ -110,8 +203,55 @@ class SmallWinApp {
     updateStats() {
         if (!this.wins) return;
 
-        document.getElementById('totalCount').textContent = this.wins.length;
-        document.getElementById('streakCount').textContent = this.calculateStreak(this.wins);
+        // 無料版は7日分のみ
+        let statsWins = this.wins;
+        if (!this.isPremium) {
+            const sevenDaysAgo = new Date();
+            sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+            statsWins = statsWins.filter(win => new Date(win.createdAt) >= sevenDaysAgo);
+        }
+
+        document.getElementById('totalCount').textContent = statsWins.length;
+        document.getElementById('streakCount').textContent = this.calculateStreak(statsWins);
+
+        // 有料版統計
+        if (this.isPremium) {
+            const now = new Date();
+            const thisWeekStart = new Date(now.getFullYear(), now.getMonth(), now.getDate() - now.getDay());
+            const lastWeekStart = new Date(thisWeekStart);
+            lastWeekStart.setDate(lastWeekStart.getDate() - 7);
+            const thisMonthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+            const lastMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+            const lastMonthEnd = new Date(now.getFullYear(), now.getMonth(), 0);
+
+            const thisWeekWins = this.wins.filter(win => new Date(win.createdAt) >= thisWeekStart);
+            const lastWeekWins = this.wins.filter(win => {
+                const d = new Date(win.createdAt);
+                return d >= lastWeekStart && d < thisWeekStart;
+            });
+            const thisMonthWins = this.wins.filter(win => new Date(win.createdAt) >= thisMonthStart);
+            const lastMonthWins = this.wins.filter(win => {
+                const d = new Date(win.createdAt);
+                return d >= lastMonthStart && d <= lastMonthEnd;
+            });
+
+            document.getElementById('weeklyCount').textContent = thisWeekWins.length;
+            document.getElementById('lastWeekCount').textContent = lastWeekWins.length;
+            document.getElementById('monthlyCount').textContent = thisMonthWins.length;
+            document.getElementById('lastMonthCount').textContent = lastMonthWins.length;
+
+            // カテゴリ別統計
+            const categories = { work: 0, health: 0, learning: 0, hobby: 0 };
+            this.wins.forEach(win => {
+                if (win.category && categories[win.category] !== undefined) {
+                    categories[win.category]++;
+                }
+            });
+            document.getElementById('catWork').textContent = categories.work;
+            document.getElementById('catHealth').textContent = categories.health;
+            document.getElementById('catLearning').textContent = categories.learning;
+            document.getElementById('catHobby').textContent = categories.hobby;
+        }
     }
 
     calculateStreak(wins) {
